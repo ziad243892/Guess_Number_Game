@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <title>Guess My Number!</title>
+   </head>
+   <body>
+      <header class="mt-2">
+         <h2 class="text-center fw-bold"> Guess My Number!</h2>
+         <p class="text-center fw-bold">(Between 1 and 20)</p>
+         <div style="background-color: #198754;" class="text-center fw-bold text-white d-block p-3 mx-auto display-3 number">?</div>
+      </header>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-6">
+               <label class="form-label mt-5">Type the number want to guess</label>
+               <input type="number" class="form-control guess" />
+               <div>Type the number between 1 and 20</div>
+               <button class="btn btn-secondary mt-3 check">Check!</button>
+            </div>
+            <div class="col-md-6 text-center">
+               <h3 class="mt-5 fw-bold message">Start guessing...</h3>
+               <h4 class="label-score">💯 Score: <span class="fw-bold score">20</span></h4>
+               <h4 class="label-highscore">🥇 Highscore: <span class="fw-bold highscore">0</span></h4>
+               <button class="btn btn-primary mt-2 again">Again!</button>
+            </div>
+         </div>
+      </div>
+      <script>
+         'use strict';
+let number = Math.trunc((Math.random() * 12)) + 1
+let score = 20;
+let heightScore = 0;
+document.querySelector('.score').textContent = score;
+document.querySelector('.check').addEventListener('click', () => {
+    let inputValue = Number(document.querySelector('.guess').value);
+    if (!inputValue || inputValue === 0 || inputValue < 0 || inputValue > 20) {
+        document.querySelector('.message').textContent = '❌No Number!';
+        document.querySelector('.number').textContent = '??';
+    } else if (score > 0) {
+        if (inputValue === number) {
+            document.querySelector('.message').textContent = 'Number is correct';
+            score++;
+            document.querySelector('.score').textContent = score;
+            document.body.style.background = '#198754';
+            document.body.style.color = '#fff';
+            document.querySelector('.number').style.fontSize = '3rem';
+            document.querySelector('.number').textContent = 'Correct Number: ' + inputValue;
+            if (score > heightScore) {
+                heightScore = score;
+                document.querySelector('.highscore').textContent = score;
+            }
+        } else if (inputValue < number) {
+            document.querySelector('.message').textContent = 'Number is too low';
+            score--;
+            document.querySelector('.score').textContent = score
+        } else if (inputValue > number) {
+            document.querySelector('.message').textContent = 'Number is too hight';
+            score--;
+            document.querySelector('.score').textContent = score;
+        }
+    } else {
+        score = 0;
+        document.querySelector('.message').textContent = 'Game OVER!!!';
+        document.body.style.background = 'red';
+        document.body.style.color = '#fff';
+        document.querySelector('.number').style.fontSize = '3rem';
+        document.querySelector('.number').style.backgroundColor = 'red';
+    }
+});
+document.querySelector('.again').addEventListener('click', () => {
+    document.body.style.background = '#fff';
+    document.querySelector('.number').style.fontSize = '4rem';
+    document.querySelector('.number').textContent = '?';
+    document.querySelector('.guess').value = '';
+    score = 20;
+    document.querySelector('.score').textContent = score;
+    document.querySelector('.message').textContent = 'Start guessing...';
+    number = Math.trunc((Math.random() * 12)) + 1;
+    document.body.style.color = '#212529';
+    document.querySelector('.number').style.backgroundColor = '#198754';
+});
+      </script>
+   </body>
+</html>
